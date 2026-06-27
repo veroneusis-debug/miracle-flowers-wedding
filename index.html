@@ -455,6 +455,15 @@
 </section>
 
 <script>
+  // Handle Netlify Identity recovery/invite tokens
+  // If URL has #recovery_token or #invite_token, redirect to /admin with the token
+  (function() {
+    var hash = window.location.hash;
+    if (hash && (hash.indexOf('recovery_token=') !== -1 || hash.indexOf('invite_token=') !== -1 || hash.indexOf('confirmation_token=') !== -1)) {
+      window.location.replace('/admin/' + hash);
+    }
+  })();
+
   var selectedAmount = null;
   var selectedQty = 1;
   var FORMSPREE = 'https://formspree.io/f/xeewabvz';
