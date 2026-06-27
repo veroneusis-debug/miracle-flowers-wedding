@@ -4,328 +4,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Цветочный депозит — Miracle Flowers</title>
+<script>
+  // Перехватываем токены Netlify Identity и отправляем в /admin
+  (function() {
+    var hash = window.location.hash || '';
+    if (hash.indexOf('recovery_token=') !== -1 ||
+        hash.indexOf('invite_token=') !== -1 ||
+        hash.indexOf('confirmation_token=') !== -1) {
+      window.location.replace('/admin/' + hash);
+    }
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --cream: #F5F0E8;
-    --cream-dark: #EDE5D4;
-    --gold: #B8952A;
-    --gold-light: #D4AF5A;
-    --green: #4A5C3A;
-    --green-light: #6B7D5A;
-    --leaf-green: #7a9a60;
-    --leaf-bg: #e8f0df;
-    --text-dark: #2A2218;
-    --text-mid: #5C5040;
-    --text-light: #8C7D6A;
-    --white: #FDFCF8;
-    --r: 16px;
+    --cream: #F5F0E8; --cream-dark: #EDE5D4; --gold: #B8952A; --gold-light: #D4AF5A;
+    --green: #4A5C3A; --green-light: #6B7D5A; --leaf-green: #7a9a60;
+    --text-dark: #2A2218; --text-mid: #5C5040; --text-light: #8C7D6A;
+    --white: #FDFCF8; --r: 16px;
   }
-
   html { scroll-behavior: smooth; }
   body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
-
-  /* ── HERO ── */
-  .hero {
-    width: 100%; min-height: 100vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 32px; padding: 32px;
-    background: var(--cream);
-  }
-  .hero-photo {
-    border-radius: var(--r); overflow: hidden; min-height: 580px;
-  }
-  .hero-photo img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
-    display: block; border-radius: var(--r);
-    filter: sepia(10%) brightness(0.96) saturate(0.92);
-  }
-  .hero-content {
-    display: flex; flex-direction: column; justify-content: center;
-    align-items: center; text-align: center;
-    padding: 60px 48px;
-    background: var(--white);
-    border-radius: var(--r);
-    border: 0.5px solid rgba(184,149,42,0.2);
-  }
+  .hero { width: 100%; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px; background: var(--cream); }
+  .hero-photo { border-radius: var(--r); overflow: hidden; min-height: 580px; }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border-radius: var(--r); filter: sepia(10%) brightness(0.96) saturate(0.92); }
+  .hero-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 48px; background: var(--white); border-radius: var(--r); border: 0.5px solid rgba(184,149,42,0.2); }
   .brand-logo { width: 150px; margin-bottom: 40px; }
-  .hero-eyebrow {
-    font-weight: 300; font-size: 11px;
-    letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 20px;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300; font-size: 64px; line-height: 1;
-    color: var(--text-dark); margin-bottom: 8px;
-  }
+  .hero-eyebrow { font-weight: 300; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 64px; line-height: 1; color: var(--text-dark); margin-bottom: 8px; }
   .hero-title em { font-style: italic; color: var(--green); }
-  .hero-names {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400; font-size: 28px;
-    color: var(--gold); margin-bottom: 28px; letter-spacing: 0.05em;
-  }
-  .hero-text {
-    font-weight: 300; font-size: 15px; line-height: 1.8;
-    color: var(--text-mid); max-width: 360px; margin-bottom: 44px;
-  }
-  .hero-cta {
-    display: inline-block; font-weight: 400; font-size: 12px;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--white); background: var(--leaf-green);
-    padding: 16px 36px; text-decoration: none; border: none;
-    border-radius: 8px; cursor: pointer; transition: background .3s;
-  }
+  .hero-names { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; color: var(--gold); margin-bottom: 28px; letter-spacing: 0.05em; }
+  .hero-text { font-weight: 300; font-size: 15px; line-height: 1.8; color: var(--text-mid); max-width: 360px; margin-bottom: 44px; }
+  .hero-cta { display: inline-block; font-weight: 400; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); background: var(--leaf-green); padding: 16px 36px; text-decoration: none; border: none; border-radius: 8px; cursor: pointer; transition: background .3s; }
   .hero-cta:hover { background: var(--gold); }
-
-  /* ── DIVIDER ── */
-  .divider {
-    display: flex; align-items: center; gap: 20px;
-    padding: 0 80px; margin: 24px 0;
-  }
-  .divider::before, .divider::after {
-    content: ''; flex: 1; height: 0.5px;
-    background: var(--gold-light); opacity: 0.5;
-  }
+  .divider { display: flex; align-items: center; gap: 20px; padding: 0 80px; margin: 24px 0; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 0.5px; background: var(--gold-light); opacity: 0.5; }
   .divider span { font-size: 18px; color: var(--gold-light); }
-
-  /* ── SECTIONS ── */
   .section { padding: 48px 80px; }
-  .section-label {
-    font-weight: 300; font-size: 11px; letter-spacing: 0.25em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 14px; text-align: center;
-  }
-  .section-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300; font-size: 46px; text-align: center;
-    color: var(--text-dark); margin-bottom: 36px; line-height: 1.1;
-  }
-
-  /* ── STEPS ── */
-  .steps-grid {
-    display: grid; grid-template-columns: repeat(3,1fr);
-    gap: 40px; max-width: 900px; margin: 0 auto;
-  }
+  .section-label { font-weight: 300; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; text-align: center; }
+  .section-heading { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 46px; text-align: center; color: var(--text-dark); margin-bottom: 36px; line-height: 1.1; }
+  .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 900px; margin: 0 auto; }
   .step { text-align: center; }
-  .step-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 76px; font-weight: 300;
-    color: var(--cream-dark); line-height: 1; margin-bottom: -18px;
-  }
-  .step-title {
-    font-weight: 500; font-size: 13px; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--green); margin-bottom: 10px;
-  }
+  .step-number { font-family: 'Cormorant Garamond', serif; font-size: 76px; font-weight: 300; color: var(--cream-dark); line-height: 1; margin-bottom: -18px; }
+  .step-title { font-weight: 500; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
   .step-text { font-weight: 300; font-size: 14px; line-height: 1.7; color: var(--text-mid); }
-
-  /* ── CERTIFICATES ── */
   .certs-section { background: var(--white); padding: 48px 80px; }
-  .certs-grid {
-    display: grid; grid-template-columns: repeat(3,1fr);
-    gap: 24px; max-width: 960px; margin: 0 auto;
-  }
-
-  .cert-card {
-    background: var(--cream); border-radius: var(--r);
-    border: 0.5px solid rgba(184,149,42,0.3);
-    padding: 0 0 24px; text-align: center;
-    cursor: pointer; transition: all .3s; position: relative; overflow: hidden;
-  }
-  .cert-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 3px; background: var(--gold);
-    border-radius: var(--r) var(--r) 0 0;
-    transform: scaleX(0); transform-origin: left; transition: transform .3s;
-  }
+  .certs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+  .cert-card { background: var(--cream); border-radius: var(--r); border: 0.5px solid rgba(184,149,42,0.3); padding: 0 0 24px; text-align: center; cursor: pointer; transition: all .3s; position: relative; overflow: hidden; }
+  .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); border-radius: var(--r) var(--r) 0 0; transform: scaleX(0); transform-origin: left; transition: transform .3s; }
   .cert-card:hover::before, .cert-card.selected::before { transform: scaleX(1); }
-  .cert-card:hover, .cert-card.selected {
-    border-color: var(--gold); background: var(--white);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(184,149,42,0.12);
-  }
+  .cert-card:hover, .cert-card.selected { border-color: var(--gold); background: var(--white); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(184,149,42,0.12); }
   .cert-card.selected .cert-price { color: var(--gold); }
-
-  .cert-img-wrap {
-    width: 100%; height: 120px; overflow: hidden;
-    border-radius: var(--r) var(--r) 0 0; margin-bottom: 18px;
-  }
+  .cert-img-wrap { width: 100%; height: 120px; overflow: hidden; border-radius: var(--r) var(--r) 0 0; margin-bottom: 18px; }
   .cert-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  .cert-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400; font-size: 34px;
-    color: var(--text-dark); margin-bottom: 4px; transition: color .3s;
-  }
-  .cert-label {
-    font-weight: 300; font-size: 11px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--text-light); margin-bottom: 14px;
-  }
-  .cert-tag {
-    display: inline-block; font-weight: 300; font-size: 11px;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--green-light); border: 0.5px solid var(--green-light);
-    padding: 4px 12px; border-radius: 4px; margin-bottom: 16px;
-  }
-
-  /* ── QUANTITY STEPPER ── */
-  .qty-wrap {
-    display: flex; align-items: center; justify-content: center; gap: 0;
-    margin-top: 4px;
-  }
-  .qty-btn {
-    width: 32px; height: 32px;
-    background: var(--cream-dark); border: 0.5px solid rgba(184,149,42,0.4);
-    color: var(--text-dark); font-size: 18px; line-height: 1;
-    cursor: pointer; transition: background .2s, color .2s;
-    display: flex; align-items: center; justify-content: center;
-    user-select: none; font-weight: 300;
-  }
+  .cert-price { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 34px; color: var(--text-dark); margin-bottom: 4px; transition: color .3s; }
+  .cert-label { font-weight: 300; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 14px; }
+  .cert-tag { display: inline-block; font-weight: 300; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-light); border: 0.5px solid var(--green-light); padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
+  .qty-wrap { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: 4px; }
+  .qty-btn { width: 32px; height: 32px; background: var(--cream-dark); border: 0.5px solid rgba(184,149,42,0.4); color: var(--text-dark); font-size: 18px; line-height: 1; cursor: pointer; transition: background .2s, color .2s; display: flex; align-items: center; justify-content: center; user-select: none; font-weight: 300; }
   .qty-btn:first-child { border-radius: 8px 0 0 8px; }
-  .qty-btn:last-child  { border-radius: 0 8px 8px 0; }
+  .qty-btn:last-child { border-radius: 0 8px 8px 0; }
   .qty-btn:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
-  .qty-val {
-    width: 40px; height: 32px;
-    background: var(--white); border-top: 0.5px solid rgba(184,149,42,0.4);
-    border-bottom: 0.5px solid rgba(184,149,42,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif; font-size: 18px;
-    color: var(--text-dark);
-  }
-
-  /* ── FORM ── */
+  .qty-val { width: 40px; height: 32px; background: var(--white); border-top: 0.5px solid rgba(184,149,42,0.4); border-bottom: 0.5px solid rgba(184,149,42,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text-dark); }
   .form-wrap { padding: 48px 80px; max-width: 680px; margin: 0 auto; }
-  .form-box {
-    background: var(--white); border-radius: var(--r);
-    border: 0.5px solid rgba(184,149,42,0.2);
-    padding: 48px;
-  }
+  .form-box { background: var(--white); border-radius: var(--r); border: 0.5px solid rgba(184,149,42,0.2); padding: 48px; }
   .form-group { margin-bottom: 24px; }
-  .form-label {
-    display: block; font-weight: 300; font-size: 11px;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--text-light); margin-bottom: 8px;
-  }
-  .form-input {
-    width: 100%; font-family: 'Jost', sans-serif;
-    font-weight: 300; font-size: 15px; color: var(--text-dark);
-    background: var(--cream); border: 0.5px solid rgba(184,149,42,0.25);
-    border-radius: 10px; padding: 13px 16px; outline: none;
-    transition: border-color .3s;
-  }
+  .form-label { display: block; font-weight: 300; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; }
+  .form-input { width: 100%; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text-dark); background: var(--cream); border: 0.5px solid rgba(184,149,42,0.25); border-radius: 10px; padding: 13px 16px; outline: none; transition: border-color .3s; }
   .form-input:focus { border-color: var(--gold); background: var(--white); }
-  .form-select {
-    appearance: none; cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B8952A' stroke-width='1' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 16px center;
-  }
-
-  .selected-summary {
-    background: var(--cream); border: 0.5px solid rgba(184,149,42,0.4);
-    border-radius: 10px; padding: 18px 22px; margin-bottom: 24px;
-    display: none; justify-content: space-between; align-items: center;
-  }
-  .selected-summary-label {
-    font-weight: 300; font-size: 12px; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--text-mid);
-  }
-  .selected-summary-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; color: var(--gold);
-  }
-
-  .form-submit {
-    width: 100%; font-family: 'Jost', sans-serif;
-    font-weight: 400; font-size: 13px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--white);
-    background: var(--leaf-green); border: none; border-radius: 10px;
-    padding: 18px; cursor: pointer; transition: background .3s; margin-top: 8px;
-  }
+  .form-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B8952A' stroke-width='1' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+  .selected-summary { background: var(--cream); border: 0.5px solid rgba(184,149,42,0.4); border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; display: none; justify-content: space-between; align-items: center; }
+  .selected-summary-label { font-weight: 300; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); }
+  .selected-summary-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--gold); }
+  .form-submit { width: 100%; font-family: 'Jost', sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); background: var(--leaf-green); border: none; border-radius: 10px; padding: 18px; cursor: pointer; transition: background .3s; margin-top: 8px; }
   .form-submit:hover { background: var(--gold); }
-  .form-note {
-    font-weight: 300; font-size: 12px; color: var(--text-light);
-    text-align: center; margin-top: 14px; line-height: 1.7;
-  }
-  .success-msg {
-    display: none; text-align: center; padding: 40px;
-    background: var(--cream); border-radius: var(--r);
-    border: 0.5px solid rgba(184,149,42,0.4); margin-top: 20px;
-  }
+  .form-note { font-weight: 300; font-size: 12px; color: var(--text-light); text-align: center; margin-top: 14px; line-height: 1.7; }
+  .success-msg { display: none; text-align: center; padding: 40px; background: var(--cream); border-radius: var(--r); border: 0.5px solid rgba(184,149,42,0.4); margin-top: 20px; }
   .success-msg.visible { display: block; }
-  .success-msg h3 {
-    font-family: 'Cormorant Garamond', serif; font-size: 34px;
-    font-weight: 300; color: var(--green); margin-bottom: 10px;
-  }
+  .success-msg h3 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: var(--green); margin-bottom: 10px; }
   .success-msg p { font-weight: 300; font-size: 14px; color: var(--text-mid); line-height: 1.7; }
-
-  /* ── CALLBACK BLOCK ── */
-  .callback-section {
-    background: var(--leaf-green); padding: 56px 80px; text-align: center;
-  }
+  .callback-section { background: var(--leaf-green); padding: 56px 80px; text-align: center; }
   .callback-section .section-label { color: rgba(255,255,255,0.7); }
   .callback-section .section-heading { color: var(--white); font-size: 38px; margin-bottom: 12px; }
-  .callback-sub {
-    font-weight: 300; font-size: 15px; color: rgba(255,255,255,0.8);
-    margin-bottom: 36px; line-height: 1.7;
-  }
+  .callback-sub { font-weight: 300; font-size: 15px; color: rgba(255,255,255,0.8); margin-bottom: 36px; line-height: 1.7; }
   .callback-sub a { color: var(--gold-light); text-decoration: none; font-weight: 500; }
   .callback-sub a:hover { color: var(--white); }
-  .callback-form {
-    display: flex; flex-direction: column; gap: 12px;
-    max-width: 400px; margin: 0 auto;
-  }
-  .callback-input {
-    font-family: 'Jost', sans-serif;
-    font-weight: 300; font-size: 15px;
-    color: var(--text-dark); background: var(--white);
-    border: none; border-radius: 10px;
-    padding: 15px 20px; outline: none;
-  }
-  .callback-btn {
-    font-family: 'Jost', sans-serif; font-weight: 400;
-    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--white); background: var(--green);
-    border: none; border-radius: 10px;
-    padding: 15px 28px; cursor: pointer; transition: background .3s;
-  }
+  .callback-form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto; }
+  .callback-input { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 15px; color: var(--text-dark); background: var(--white); border: none; border-radius: 10px; padding: 15px 20px; outline: none; }
+  .callback-btn { font-family: 'Jost', sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); background: var(--green); border: none; border-radius: 10px; padding: 15px 28px; cursor: pointer; transition: background .3s; }
   .callback-btn:hover { background: var(--gold); }
-  .callback-success {
-    display: none; color: rgba(255,255,255,0.9); font-weight: 300;
-    font-size: 15px; margin-top: 16px;
-  }
+  .callback-success { display: none; color: rgba(255,255,255,0.9); font-weight: 300; font-size: 15px; margin-top: 16px; }
   .callback-success.visible { display: block; }
-  .footer-inline {
-    margin-top: 48px; padding-top: 32px;
-    border-top: 0.5px solid rgba(255,255,255,0.2);
-  }
-  .footer-logo-inline {
-    width: 140px; margin-bottom: 12px; opacity: 0.55;
-  }
-  .footer-inline p {
-    font-weight: 300; font-size: 12px; letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.5); margin-bottom: 4px;
-  }
+  .footer-inline { margin-top: 48px; padding-top: 32px; border-top: 0.5px solid rgba(255,255,255,0.2); }
+  .footer-logo-inline { width: 140px; margin-bottom: 12px; opacity: 0.55; }
+  .footer-inline p { font-weight: 300; font-size: 12px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
   .footer-inline a { color: var(--gold-light); text-decoration: none; }
   .footer-inline a:hover { color: var(--white); }
-  .footer-legal {
-    font-size: 11px; letter-spacing: 0.02em;
-    color: rgba(255,255,255,0.35); margin-top: 2px;
-  }
-
-  /* ── LOADING ── */
-  #page-loader {
-    position: fixed; inset: 0; background: var(--cream);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999; transition: opacity 0.4s;
-  }
+  .footer-legal { font-size: 11px; letter-spacing: 0.02em; color: rgba(255,255,255,0.35); margin-top: 2px; }
+  #page-loader { position: fixed; inset: 0; background: var(--cream); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s; }
   #page-loader.hidden { opacity: 0; pointer-events: none; }
   .loader-flower { font-size: 48px; animation: spin 2s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── MOBILE ── */
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; min-height: auto; padding: 16px; gap: 16px; }
     .hero-photo { height: 65vw; min-height: auto; }
@@ -334,21 +114,14 @@
     .section, .certs-section, .form-wrap, .callback-section { padding: 48px 20px; }
     .steps-grid, .certs-grid { grid-template-columns: 1fr; gap: 20px; }
     .divider { padding: 0 24px; }
-    .footer-inline { margin-top: 32px; }
     .form-box { padding: 28px 20px; }
   }
 </style>
 </head>
 <body>
-
-<!-- LOADER -->
 <div id="page-loader"><div class="loader-flower">🌸</div></div>
-
-<!-- HERO -->
 <section class="hero" id="hero-section">
-  <div class="hero-photo">
-    <img id="hero-photo-img" src="photo.jpg" alt="Молодожёны" />
-  </div>
+  <div class="hero-photo"><img id="hero-photo-img" src="photo.jpg" alt="Молодожёны" /></div>
   <div class="hero-content">
     <img id="hero-logo-img" src="logo.png" alt="Miracle Flowers" class="brand-logo" />
     <p class="hero-eyebrow" id="hero-eyebrow">Цветочный депозит</p>
@@ -358,321 +131,110 @@
     <a href="#certificates" class="hero-cta" id="hero-cta">Внести депозит</a>
   </div>
 </section>
-
-<!-- HOW IT WORKS -->
 <div class="divider"><span>✦</span></div>
 <section class="section">
   <p class="section-label" id="how-label">Как это работает</p>
   <h2 class="section-heading" id="how-heading">Как работает депозит</h2>
-  <div class="steps-grid" id="steps-grid">
-    <!-- filled by JS -->
-  </div>
+  <div class="steps-grid" id="steps-grid"></div>
 </section>
-
-<!-- CERTIFICATES -->
 <div class="divider"><span>✦</span></div>
 <section class="certs-section" id="certificates">
   <p class="section-label" id="certs-label">Сертификаты</p>
   <h2 class="section-heading" id="certs-heading">Внесите сумму на депозит</h2>
-  <div class="certs-grid" id="certsGrid">
-    <!-- filled by JS -->
-  </div>
+  <div class="certs-grid" id="certsGrid"></div>
 </section>
-
-<!-- ORDER FORM -->
 <div class="divider"><span>✦</span></div>
 <section id="order-form">
   <div class="form-wrap">
     <p class="section-label" style="text-align:center">Оформление</p>
     <h2 class="section-heading">Ваши данные</h2>
     <div class="form-box">
-
       <div class="selected-summary" id="selectedDisplay">
         <span class="selected-summary-label" id="selectedLabel">Сертификат выбран</span>
         <span class="selected-summary-price" id="selectedPrice">—</span>
       </div>
-
-      <div class="form-group">
-        <label class="form-label" for="guestName">Ваше имя</label>
-        <input class="form-input" type="text" id="guestName" placeholder="Имя и фамилия" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="guestPhone">Телефон</label>
-        <input class="form-input" type="tel" id="guestPhone" placeholder="+7 (___) ___-__-__" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="guestEmail">Email</label>
-        <input class="form-input" type="email" id="guestEmail" placeholder="your@email.ru" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="certAmount">Сумма депозита</label>
-        <select class="form-input form-select" id="certAmount" onchange="syncSelect(this)">
-          <option value="">— выберите сертификат —</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="guestMessage">Пожелание молодожёнам (необязательно)</label>
-        <textarea class="form-input" id="guestMessage" rows="4" placeholder="Ваши слова…" style="resize:vertical;"></textarea>
-      </div>
-
+      <div class="form-group"><label class="form-label">Ваше имя</label><input class="form-input" type="text" id="guestName" placeholder="Имя и фамилия" /></div>
+      <div class="form-group"><label class="form-label">Телефон</label><input class="form-input" type="tel" id="guestPhone" placeholder="+7 (___) ___-__-__" /></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="guestEmail" placeholder="your@email.ru" /></div>
+      <div class="form-group"><label class="form-label">Сумма депозита</label><select class="form-input form-select" id="certAmount" onchange="syncSelect(this)"><option value="">— выберите сертификат —</option></select></div>
+      <div class="form-group"><label class="form-label">Пожелание молодожёнам (необязательно)</label><textarea class="form-input" id="guestMessage" rows="4" placeholder="Ваши слова…" style="resize:vertical;"></textarea></div>
       <button class="form-submit" id="submitBtn" onclick="submitForm()">Внести депозит</button>
       <p class="form-note">После отправки с вами свяжется менеджер Miracle Flowers<br>для подтверждения и оплаты депозита</p>
-
-      <div class="success-msg" id="successMsg">
-        <h3>Спасибо! ✦</h3>
-        <p>Ваш вклад в цветочный депозит оформлен.<br>Мы свяжемся с вами в ближайшее время для подтверждения.</p>
-      </div>
+      <div class="success-msg" id="successMsg"><h3>Спасибо! ✦</h3><p>Ваш вклад в цветочный депозит оформлен.<br>Мы свяжемся с вами в ближайшее время для подтверждения.</p></div>
     </div>
   </div>
 </section>
-
-<!-- CALLBACK + FOOTER -->
 <section class="callback-section">
   <p class="section-label" id="cb-label">Остались вопросы?</p>
   <h2 class="section-heading" id="cb-heading">Мы на связи</h2>
-  <p class="callback-sub" id="cb-sub">
-    Оставьте Ваш номер телефона и наш менеджер свяжется с Вами в течение 15 минут.<br>
-    Либо позвоните нам: <a id="cb-phone-link" href="tel:+79176722877">+7 (917) 672-28-77</a>
-  </p>
+  <p class="callback-sub" id="cb-sub">Оставьте Ваш номер телефона и наш менеджер свяжется с Вами в течение 15 минут.<br>Либо позвоните нам: <a id="cb-phone-link" href="tel:+79176722877">+7 (917) 672-28-77</a></p>
   <div class="callback-form">
     <input class="callback-input" type="text" id="callbackName" placeholder="Ваше имя" />
     <input class="callback-input" type="tel" id="callbackPhone" placeholder="+7 (___) ___-__-__" />
     <button class="callback-btn" onclick="submitCallback()">Перезвоните мне</button>
   </div>
   <p class="callback-success" id="callbackSuccess">✦ Отлично! Мы свяжемся с Вами в течение 15 минут.</p>
-
   <div class="footer-inline">
     <img id="footer-logo" src="logo.png" alt="Miracle Flowers" class="footer-logo-inline" />
-    <p>
-      <a id="footer-website" href="https://miracleflowers.ru" target="_blank" rel="noopener">miracleflowers.ru</a>
-      &nbsp;·&nbsp;
-      <a id="footer-instagram" href="https://instagram.com/miracleflowers" target="_blank" rel="noopener">@miracleflowers</a>
-    </p>
+    <p><a id="footer-website" href="https://miracleflowers.ru" target="_blank">miracleflowers.ru</a> · <a id="footer-instagram" href="https://instagram.com/miracleflowers" target="_blank">@miracleflowers</a></p>
     <p id="footer-address">г. Чебоксары, Университетская ул., 38к2</p>
     <p class="footer-legal" id="footer-legal"></p>
     <p id="footer-copyright">© Miracle Flowers. Цветочная подписка для молодожёнов.</p>
   </div>
 </section>
-
 <script>
-  // Handle Netlify Identity recovery/invite tokens
-  // If URL has #recovery_token or #invite_token, redirect to /admin with the token
-  (function() {
-    var hash = window.location.hash;
-    if (hash && (hash.indexOf('recovery_token=') !== -1 || hash.indexOf('invite_token=') !== -1 || hash.indexOf('confirmation_token=') !== -1)) {
-      window.location.replace('/admin/' + hash);
-    }
-  })();
-
-  var selectedAmount = null;
-  var selectedQty = 1;
-  var FORMSPREE = 'https://formspree.io/f/xeewabvz';
-
-  // ── Load all content from JSON files ──
-  async function loadContent() {
-    try {
-      var [hero, how, certs, callback, footer] = await Promise.all([
-        fetch('content/hero.json').then(r => r.json()),
-        fetch('content/how_it_works.json').then(r => r.json()),
-        fetch('content/certificates.json').then(r => r.json()),
-        fetch('content/callback.json').then(r => r.json()),
-        fetch('content/footer.json').then(r => r.json())
-      ]);
-
-      // HERO
-      document.getElementById('hero-photo-img').src = hero.photo || 'photo.jpg';
-      document.getElementById('hero-logo-img').src = hero.logo || 'logo.png';
-      document.getElementById('hero-eyebrow').textContent = hero.eyebrow;
-      document.getElementById('hero-title1').textContent = hero.title_line1;
-      document.getElementById('hero-title2').textContent = hero.title_line2;
-      document.getElementById('hero-names').textContent = hero.names;
-      document.getElementById('hero-text').textContent = hero.text;
-      document.getElementById('hero-cta').textContent = hero.cta_text;
-      document.title = hero.names + ' — Цветочный депозит Miracle Flowers';
-
-      // HOW IT WORKS
-      document.getElementById('how-label').textContent = how.label;
-      document.getElementById('how-heading').textContent = how.heading;
-      var stepsGrid = document.getElementById('steps-grid');
-      stepsGrid.innerHTML = '';
-      how.steps.forEach(function(s) {
-        stepsGrid.innerHTML += '<div class="step"><div class="step-number">' + s.number + '</div><p class="step-title">' + s.title + '</p><p class="step-text">' + s.text + '</p></div>';
-      });
-
-      // CERTIFICATES
-      document.getElementById('certs-label').textContent = certs.label;
-      document.getElementById('certs-heading').textContent = certs.heading;
-      var certsGrid = document.getElementById('certsGrid');
-      var certSelect = document.getElementById('certAmount');
-      certsGrid.innerHTML = '';
-      certSelect.innerHTML = '<option value="">— выберите сертификат —</option>';
-      certs.cards.forEach(function(c) {
-        var amt = c.amount;
-        var formatted = parseInt(amt).toLocaleString('ru-RU');
-        certsGrid.innerHTML += '<div class="cert-card" data-amount="' + amt + '" onclick="selectCert(this)">' +
-          '<div class="cert-img-wrap"><img src="' + (certs.image || 'certificate.jpg') + '" class="cert-img" alt="Сертификат" /></div>' +
-          '<div class="cert-price">' + formatted + ' ₽</div>' +
-          '<div class="cert-label">Сертификат</div>' +
-          '<span class="cert-tag">' + c.tag + '</span>' +
-          '<div class="qty-wrap" onclick="event.stopPropagation()">' +
-          '<button class="qty-btn" onclick="changeQty(this,-1)">−</button>' +
-          '<div class="qty-val">1</div>' +
-          '<button class="qty-btn" onclick="changeQty(this,1)">+</button>' +
-          '</div></div>';
-        certSelect.innerHTML += '<option value="' + amt + '">' + formatted + ' ₽</option>';
-      });
-
-      // CALLBACK
-      document.getElementById('cb-label').textContent = callback.label;
-      document.getElementById('cb-heading').textContent = callback.heading;
-      document.getElementById('cb-sub').innerHTML = callback.subtext + '<br>Либо позвоните нам: <a id="cb-phone-link" href="tel:' + callback.phone_link + '">' + callback.phone_display + '</a>';
-      document.getElementById('callbackSuccess').textContent = callback.success_text;
-
-      // FOOTER
-      var fweb = document.getElementById('footer-website');
-      fweb.href = footer.website_url;
-      fweb.textContent = footer.website_text;
-      var fig = document.getElementById('footer-instagram');
-      fig.href = footer.instagram_url;
-      fig.textContent = footer.instagram_text;
-      document.getElementById('footer-address').textContent = footer.address;
-      document.getElementById('footer-legal').textContent = footer.legal_name + ' · ИНН ' + footer.inn + ' · ОГРН ' + footer.ogrn;
-      document.getElementById('footer-copyright').textContent = footer.copyright;
-      document.getElementById('footer-logo').src = footer.logo || 'logo.png';
-
-    } catch(e) {
-      console.warn('Content load error:', e);
-    }
-    // Hide loader
-    var loader = document.getElementById('page-loader');
-    loader.classList.add('hidden');
-    setTimeout(function() { loader.remove(); }, 400);
-  }
-
-  loadContent();
-
-  // ── Interactions ──
-  function changeQty(btn, delta) {
-    var wrap = btn.parentElement;
-    var valEl = wrap.querySelector('.qty-val');
-    var current = parseInt(valEl.textContent) || 1;
-    var next = Math.max(1, current + delta);
-    valEl.textContent = next;
-    var card = wrap.closest('.cert-card');
-    if (card && card.classList.contains('selected')) {
-      selectedQty = next;
-      updateSummary();
-    }
-  }
-
-  function updateSummary() {
-    if (!selectedAmount) return;
-    var total = parseInt(selectedAmount) * selectedQty;
-    var label = selectedQty > 1
-      ? selectedQty + ' × ' + parseInt(selectedAmount).toLocaleString('ru-RU') + ' ₽'
-      : 'Сертификат';
-    document.getElementById('selectedLabel').textContent = label;
-    document.getElementById('selectedPrice').textContent = total.toLocaleString('ru-RU') + ' ₽';
-    document.getElementById('selectedDisplay').style.display = 'flex';
-  }
-
-  function selectCert(el) {
-    document.querySelectorAll('.cert-card').forEach(function(c) { c.classList.remove('selected'); });
-    el.classList.add('selected');
-    selectedAmount = el.dataset.amount;
-    selectedQty = parseInt(el.querySelector('.qty-val').textContent) || 1;
-    document.getElementById('certAmount').value = selectedAmount;
-    updateSummary();
-    document.getElementById('order-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function syncSelect(sel) {
-    selectedAmount = sel.value || null;
-    if (selectedAmount) {
-      document.querySelectorAll('.cert-card').forEach(function(c) {
-        var match = c.dataset.amount === selectedAmount;
-        c.classList.toggle('selected', match);
-        if (match) selectedQty = parseInt(c.querySelector('.qty-val').textContent) || 1;
-      });
-      updateSummary();
-    }
-  }
-
-  function submitForm() {
-    var name    = document.getElementById('guestName').value.trim();
-    var phone   = document.getElementById('guestPhone').value.trim();
-    var email   = document.getElementById('guestEmail').value.trim();
-    var amount  = document.getElementById('certAmount').value;
-    var message = document.getElementById('guestMessage').value.trim();
-    if (!name || !phone || !amount) {
-      alert('Пожалуйста, заполните имя, телефон и выберите сертификат.');
-      return;
-    }
-    var total = parseInt(amount) * selectedQty;
-    var btn = document.getElementById('submitBtn');
-    btn.textContent = 'Отправляем…';
-    btn.disabled = true;
-
-    fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'Заявка на депозит — ' + total.toLocaleString('ru-RU') + ' ₽',
-        Имя: name, Телефон: phone, Email: email || '—',
-        Сертификат: parseInt(amount).toLocaleString('ru-RU') + ' ₽ × ' + selectedQty + ' шт.',
-        Итого: total.toLocaleString('ru-RU') + ' ₽',
-        Пожелание: message || '—'
-      })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.ok) {
-        document.getElementById('successMsg').classList.add('visible');
-        btn.style.display = 'none';
-      } else {
-        btn.textContent = 'Внести депозит'; btn.disabled = false;
-        alert('Ошибка отправки. Попробуйте ещё раз или позвоните нам.');
-      }
-    })
-    .catch(function() {
-      btn.textContent = 'Внести депозит'; btn.disabled = false;
-      alert('Нет соединения. Проверьте интернет и попробуйте снова.');
+var selectedAmount=null,selectedQty=1,FORMSPREE='https://formspree.io/f/xeewabvz';
+async function loadContent(){
+  try{
+    var[hero,how,certs,cb,footer]=await Promise.all([
+      fetch('content/hero.json').then(r=>r.json()),
+      fetch('content/how_it_works.json').then(r=>r.json()),
+      fetch('content/certificates.json').then(r=>r.json()),
+      fetch('content/callback.json').then(r=>r.json()),
+      fetch('content/footer.json').then(r=>r.json())
+    ]);
+    document.getElementById('hero-photo-img').src=hero.photo||'photo.jpg';
+    document.getElementById('hero-logo-img').src=hero.logo||'logo.png';
+    document.getElementById('hero-eyebrow').textContent=hero.eyebrow;
+    document.getElementById('hero-title1').textContent=hero.title_line1;
+    document.getElementById('hero-title2').textContent=hero.title_line2;
+    document.getElementById('hero-names').textContent=hero.names;
+    document.getElementById('hero-text').textContent=hero.text;
+    document.getElementById('hero-cta').textContent=hero.cta_text;
+    document.title=hero.names+' — Цветочный депозит Miracle Flowers';
+    document.getElementById('how-label').textContent=how.label;
+    document.getElementById('how-heading').textContent=how.heading;
+    var sg=document.getElementById('steps-grid');sg.innerHTML='';
+    how.steps.forEach(function(s){sg.innerHTML+='<div class="step"><div class="step-number">'+s.number+'</div><p class="step-title">'+s.title+'</p><p class="step-text">'+s.text+'</p></div>';});
+    document.getElementById('certs-label').textContent=certs.label;
+    document.getElementById('certs-heading').textContent=certs.heading;
+    var cg=document.getElementById('certsGrid'),cs=document.getElementById('certAmount');
+    cg.innerHTML='';cs.innerHTML='<option value="">— выберите сертификат —</option>';
+    certs.cards.forEach(function(c){
+      var f=parseInt(c.amount).toLocaleString('ru-RU');
+      cg.innerHTML+='<div class="cert-card" data-amount="'+c.amount+'" onclick="selectCert(this)"><div class="cert-img-wrap"><img src="'+(certs.image||'certificate.jpg')+'" class="cert-img" alt="Сертификат"/></div><div class="cert-price">'+f+' ₽</div><div class="cert-label">Сертификат</div><span class="cert-tag">'+c.tag+'</span><div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="changeQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="changeQty(this,1)">+</button></div></div>';
+      cs.innerHTML+='<option value="'+c.amount+'">'+f+' ₽</option>';
     });
-  }
-
-  function submitCallback() {
-    var name  = document.getElementById('callbackName').value.trim();
-    var phone = document.getElementById('callbackPhone').value.trim();
-    if (!phone) { alert('Введите номер телефона'); return; }
-    var cbBtn = document.querySelector('.callback-btn');
-    cbBtn.textContent = 'Отправляем…'; cbBtn.disabled = true;
-
-    fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'Обратный звонок — свадебный лендинг',
-        Тип: 'Обратный звонок', Имя: name || '—', Телефон: phone
-      })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.ok) {
-        document.getElementById('callbackSuccess').classList.add('visible');
-        document.getElementById('callbackName').disabled = true;
-        document.getElementById('callbackPhone').disabled = true;
-        cbBtn.style.display = 'none';
-      } else {
-        cbBtn.textContent = 'Перезвоните мне'; cbBtn.disabled = false;
-        alert('Ошибка отправки. Позвоните нам напрямую.');
-      }
-    })
-    .catch(function() {
-      cbBtn.textContent = 'Перезвоните мне'; cbBtn.disabled = false;
-      alert('Нет соединения. Позвоните нам напрямую.');
-    });
-  }
+    document.getElementById('cb-label').textContent=cb.label;
+    document.getElementById('cb-heading').textContent=cb.heading;
+    document.getElementById('cb-sub').innerHTML=cb.subtext+'<br>Либо позвоните нам: <a href="tel:'+cb.phone_link+'">'+cb.phone_display+'</a>';
+    document.getElementById('callbackSuccess').textContent=cb.success_text;
+    var fw=document.getElementById('footer-website');fw.href=footer.website_url;fw.textContent=footer.website_text;
+    var fi=document.getElementById('footer-instagram');fi.href=footer.instagram_url;fi.textContent=footer.instagram_text;
+    document.getElementById('footer-address').textContent=footer.address;
+    document.getElementById('footer-legal').textContent=footer.legal_name+' · ИНН '+footer.inn+' · ОГРН '+footer.ogrn;
+    document.getElementById('footer-copyright').textContent=footer.copyright;
+    document.getElementById('footer-logo').src=footer.logo||'logo.png';
+  }catch(e){console.warn('Content load error:',e);}
+  var l=document.getElementById('page-loader');l.classList.add('hidden');setTimeout(function(){l.remove();},400);
+}
+loadContent();
+function changeQty(btn,delta){var w=btn.parentElement,v=w.querySelector('.qty-val'),n=Math.max(1,(parseInt(v.textContent)||1)+delta);v.textContent=n;var c=w.closest('.cert-card');if(c&&c.classList.contains('selected')){selectedQty=n;updateSummary();}}
+function updateSummary(){if(!selectedAmount)return;var t=parseInt(selectedAmount)*selectedQty;document.getElementById('selectedLabel').textContent=selectedQty>1?selectedQty+' × '+parseInt(selectedAmount).toLocaleString('ru-RU')+' ₽':'Сертификат';document.getElementById('selectedPrice').textContent=t.toLocaleString('ru-RU')+' ₽';document.getElementById('selectedDisplay').style.display='flex';}
+function selectCert(el){document.querySelectorAll('.cert-card').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');selectedAmount=el.dataset.amount;selectedQty=parseInt(el.querySelector('.qty-val').textContent)||1;document.getElementById('certAmount').value=selectedAmount;updateSummary();document.getElementById('order-form').scrollIntoView({behavior:'smooth',block:'start'});}
+function syncSelect(sel){selectedAmount=sel.value||null;if(selectedAmount){document.querySelectorAll('.cert-card').forEach(function(c){var m=c.dataset.amount===selectedAmount;c.classList.toggle('selected',m);if(m)selectedQty=parseInt(c.querySelector('.qty-val').textContent)||1;});updateSummary();}}
+function submitForm(){var name=document.getElementById('guestName').value.trim(),phone=document.getElementById('guestPhone').value.trim(),email=document.getElementById('guestEmail').value.trim(),amount=document.getElementById('certAmount').value,msg=document.getElementById('guestMessage').value.trim();if(!name||!phone||!amount){alert('Пожалуйста, заполните имя, телефон и выберите сертификат.');return;}var total=parseInt(amount)*selectedQty,btn=document.getElementById('submitBtn');btn.textContent='Отправляем…';btn.disabled=true;fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Заявка на депозит — '+total.toLocaleString('ru-RU')+' ₽',Имя:name,Телефон:phone,Email:email||'—',Сертификат:parseInt(amount).toLocaleString('ru-RU')+' ₽ × '+selectedQty+' шт.',Итого:total.toLocaleString('ru-RU')+' ₽',Пожелание:msg||'—'})}).then(function(r){return r.json();}).then(function(d){if(d.ok){document.getElementById('successMsg').classList.add('visible');btn.style.display='none';}else{btn.textContent='Внести депозит';btn.disabled=false;alert('Ошибка отправки.');}}).catch(function(){btn.textContent='Внести депозит';btn.disabled=false;alert('Нет соединения.');});}
+function submitCallback(){var name=document.getElementById('callbackName').value.trim(),phone=document.getElementById('callbackPhone').value.trim();if(!phone){alert('Введите номер телефона');return;}var cbBtn=document.querySelector('.callback-btn');cbBtn.textContent='Отправляем…';cbBtn.disabled=true;fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Обратный звонок — свадебный лендинг',Тип:'Обратный звонок',Имя:name||'—',Телефон:phone})}).then(function(r){return r.json();}).then(function(d){if(d.ok){document.getElementById('callbackSuccess').classList.add('visible');document.getElementById('callbackName').disabled=true;document.getElementById('callbackPhone').disabled=true;cbBtn.style.display='none';}else{cbBtn.textContent='Перезвоните мне';cbBtn.disabled=false;}}).catch(function(){cbBtn.textContent='Перезвоните мне';cbBtn.disabled=false;});}
 </script>
-
 </body>
 </html>
