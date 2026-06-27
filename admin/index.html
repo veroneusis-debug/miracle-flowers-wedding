@@ -4,8 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Miracle Flowers — Панель управления</title>
+  <script>
+    // Перехватываем токены из URL и передаём в CMS
+    if (window.location.hash) {
+      var hash = window.location.hash;
+      if (hash.indexOf('recovery_token=') !== -1 ||
+          hash.indexOf('invite_token=') !== -1 ||
+          hash.indexOf('confirmation_token=') !== -1) {
+        // Токен уже в правильном месте — CMS его подхватит
+        console.log('Token detected, CMS will handle it');
+      }
+    }
+    // Если токен попал в основной URL (не хэш)
+    var search = window.location.search;
+    if (search.indexOf('recovery_token=') !== -1 || search.indexOf('invite_token=') !== -1) {
+      var token = search.replace('?', '#');
+      window.location.replace('/admin/' + token);
+    }
+  </script>
 </head>
 <body>
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
 </body>
 </html>
