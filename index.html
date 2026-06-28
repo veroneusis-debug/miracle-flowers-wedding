@@ -16,62 +16,65 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
 
-/* ── LOGIN ── */
-.login-overlay { position: fixed; inset: 0; background: rgba(42,34,24,0.92); z-index: 99999; display: none; align-items: center; justify-content: center; }
+/* PANEL */
+.panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99998; display: none; }
+.panel-overlay.visible { display: block; }
+.panel { position: fixed; top: 0; right: -520px; width: 500px; height: 100vh; background: #1a1410; z-index: 99999; overflow-y: auto; transition: right .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
+.panel.open { right: 0; }
+.panel-head { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.panel-head h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--gold-light); }
+.panel-close { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 24px; cursor: pointer; padding: 4px 8px; }
+.panel-close:hover { color: white; }
+.panel-body { padding: 24px; flex: 1; }
+.panel-section { margin-bottom: 28px; }
+.panel-section-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(184,149,42,0.2); }
+.panel-row { margin-bottom: 14px; }
+.panel-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 5px; letter-spacing: 0.05em; }
+.panel-input { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 9px 12px; color: white; font-family: 'Jost', sans-serif; font-size: 14px; outline: none; transition: border-color .2s; }
+.panel-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+.panel-textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+.panel-img-btn { width: 100%; background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; cursor: pointer; color: rgba(255,255,255,0.6); font-size: 13px; text-align: center; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.panel-img-btn:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(184,149,42,0.08); }
+.panel-img-preview { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; margin-top: 8px; display: none; }
+.panel-img-preview.visible { display: block; }
+.certs-grid-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cert-panel-item { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; }
+.cert-panel-item .panel-label { color: var(--gold-light); font-size: 11px; margin-bottom: 8px; }
+.color-row { display: flex; gap: 10px; align-items: center; }
+.color-input { width: 40px; height: 40px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; padding: 2px; background: none; }
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-input { flex: 1; accent-color: var(--gold); }
+.range-val { color: var(--gold-light); font-size: 13px; min-width: 36px; text-align: right; }
+.panel-save { margin: 16px 24px 24px; padding: 16px; background: var(--leaf-green); color: white; border: none; border-radius: 10px; font-family: 'Jost', sans-serif; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background .2s; width: calc(100% - 48px); flex-shrink: 0; }
+.panel-save:hover { background: var(--gold); }
+
+/* LOGIN */
+.login-overlay { position: fixed; inset: 0; background: rgba(42,34,24,0.92); z-index: 999999; display: none; align-items: center; justify-content: center; }
 .login-overlay.visible { display: flex; }
 .login-box { background: var(--white); border-radius: 20px; padding: 48px 40px; width: 340px; text-align: center; }
 .login-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; margin-bottom: 6px; }
 .login-box p { font-size: 13px; color: var(--text-light); margin-bottom: 24px; }
 .login-input { width: 100%; font-family: 'Jost', sans-serif; font-size: 16px; color: var(--text-dark); background: var(--cream); border: 1px solid rgba(184,149,42,0.3); border-radius: 10px; padding: 14px 16px; outline: none; text-align: center; letter-spacing: 0.2em; margin-bottom: 12px; }
 .login-input:focus { border-color: var(--gold); }
-.login-btn { width: 100%; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: var(--leaf-green); border: none; border-radius: 10px; padding: 15px; cursor: pointer; transition: background .2s; }
+.login-btn { width: 100%; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: var(--leaf-green); border: none; border-radius: 10px; padding: 15px; cursor: pointer; }
 .login-btn:hover { background: var(--gold); }
 .login-err { color: #c0392b; font-size: 13px; margin-top: 10px; display: none; }
 
-/* ── EDIT BAR ── */
-.edit-bar { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9000; background: #1a1410; padding: 0 24px; height: 52px; align-items: center; gap: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-.edit-bar.visible { display: flex; }
-.edit-bar-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--gold-light); letter-spacing: 0.05em; margin-right: 8px; }
-.edit-bar-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
-.edit-bar-label { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; flex: 1; }
-.eb-btn { padding: 7px 16px; border-radius: 8px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; transition: all .2s; }
-.eb-save { background: var(--leaf-green); color: white; }
-.eb-save:hover { background: #5d8048; }
-.eb-exit { background: transparent; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.15); }
-.eb-exit:hover { color: white; border-color: rgba(255,255,255,0.4); }
-body.edit-mode { padding-top: 52px; }
+/* EDIT TRIGGER */
+.edit-trigger { position: fixed; bottom: 24px; right: 24px; z-index: 9000; background: #1a1410; border: 1px solid rgba(184,149,42,0.4); color: var(--gold-light); padding: 12px 20px; border-radius: 50px; font-size: 13px; cursor: pointer; font-family: 'Jost', sans-serif; letter-spacing: 0.1em; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: all .2s; display: none; }
+.edit-trigger.visible { display: flex; align-items: center; gap: 8px; }
+.edit-trigger:hover { background: var(--gold); color: white; border-color: var(--gold); }
 
-/* ── EDITABLE ELEMENTS ── */
-body.edit-mode [contenteditable="true"] {
-  outline: 2px dashed rgba(184,149,42,0.6); outline-offset: 4px;
-  border-radius: 4px; cursor: text; min-width: 10px;
-  transition: outline-color .15s, background .15s;
-}
-body.edit-mode [contenteditable="true"]:hover { outline-color: var(--gold); background: rgba(184,149,42,0.06); }
-body.edit-mode [contenteditable="true"]:focus { outline: 2px solid var(--gold); outline-offset: 4px; background: rgba(184,149,42,0.09); }
-
-/* ── IMAGE REPLACE ── */
-.img-wrap { position: relative; display: block; }
-.img-replace-btn { display: none; position: absolute; inset: 0; background: rgba(26,20,16,0.55); align-items: center; justify-content: center; cursor: pointer; border-radius: var(--r); z-index: 10; transition: background .2s; }
-.img-replace-btn:hover { background: rgba(26,20,16,0.72); }
-.img-replace-btn span { background: rgba(184,149,42,0.9); color: white; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 18px; border-radius: 8px; font-family: 'Jost', sans-serif; }
-body.edit-mode .img-replace-btn { display: flex; }
-
-/* ── EDIT HINT ── */
-.edit-hint { display: none; position: fixed; bottom: 24px; right: 24px; background: #1a1410; border: 1px solid rgba(184,149,42,0.3); color: rgba(255,255,255,0.7); font-size: 12px; padding: 14px 18px; border-radius: 12px; line-height: 1.8; z-index: 8000; pointer-events: none; }
-body.edit-mode .edit-hint { display: block; }
-
-/* ── HERO ── */
+/* HERO */
 .hero { width: 100%; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 32px; background: var(--cream); }
 .hero-photo { border-radius: var(--r); overflow: hidden; min-height: 580px; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border-radius: var(--r); filter: sepia(10%) brightness(0.96) saturate(0.92); }
 .hero-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 48px; background: var(--white); border-radius: var(--r); border: 0.5px solid rgba(184,149,42,0.2); }
-.brand-logo-wrap { margin-bottom: 40px; }
-.brand-logo { width: 150px; display: block; }
+.brand-logo { width: 150px; margin-bottom: 40px; display: block; }
 .hero-eyebrow { font-weight: 300; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
 .hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 64px; line-height: 1; color: var(--text-dark); margin-bottom: 8px; }
 .hero-title em { font-style: italic; color: var(--green); }
-.hero-names { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; color: var(--gold); margin-bottom: 28px; letter-spacing: 0.05em; }
+.hero-names { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; color: var(--gold); margin-bottom: 28px; }
 .hero-text { font-weight: 300; font-size: 15px; line-height: 1.8; color: var(--text-mid); max-width: 360px; margin-bottom: 44px; }
 .hero-cta { display: inline-block; font-weight: 400; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: white; background: var(--leaf-green); padding: 16px 36px; text-decoration: none; border: none; border-radius: 8px; cursor: pointer; transition: background .3s; }
 .hero-cta:hover { background: var(--gold); }
@@ -92,11 +95,10 @@ body.edit-mode .edit-hint { display: block; }
 .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); border-radius: var(--r) var(--r) 0 0; transform: scaleX(0); transform-origin: left; transition: transform .3s; }
 .cert-card:hover::before, .cert-card.selected::before { transform: scaleX(1); }
 .cert-card:hover, .cert-card.selected { border-color: var(--gold); background: var(--white); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(184,149,42,0.12); }
-.cert-img-wrap { width: 100%; height: 120px; overflow: hidden; border-radius: var(--r) var(--r) 0 0; margin-bottom: 18px; position: relative; }
-.cert-img-wrap .img-replace-btn { border-radius: var(--r) var(--r) 0 0; }
+.cert-img-wrap { width: 100%; height: 120px; overflow: hidden; border-radius: var(--r) var(--r) 0 0; margin-bottom: 18px; }
 .cert-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cert-price { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 34px; color: var(--text-dark); margin-bottom: 4px; }
-.cert-label-small { font-weight: 300; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 14px; }
+.cert-sublabel { font-weight: 300; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 14px; }
 .cert-tag { display: inline-block; font-weight: 300; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-light); border: 0.5px solid var(--green-light); padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
 .qty-wrap { display: flex; align-items: center; justify-content: center; margin-top: 4px; }
 .qty-btn { width: 32px; height: 32px; background: var(--cream-dark); border: 0.5px solid rgba(184,149,42,0.4); color: var(--text-dark); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
@@ -131,11 +133,11 @@ body.edit-mode .edit-hint { display: block; }
 .callback-success { display: none; color: rgba(255,255,255,0.9); font-size: 15px; margin-top: 16px; }
 .callback-success.visible { display: block; }
 .footer-inline { margin-top: 48px; padding-top: 32px; border-top: 0.5px solid rgba(255,255,255,0.2); }
-.footer-logo-inline { width: 140px; margin-bottom: 12px; opacity: 0.55; display: block; margin-left: auto; margin-right: auto; }
+.footer-logo-inline { width: 140px; margin: 0 auto 12px; opacity: 0.55; display: block; }
 .footer-inline p { font-weight: 300; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
 .footer-inline a { color: var(--gold-light); text-decoration: none; }
 .footer-legal { font-size: 11px; color: rgba(255,255,255,0.35); }
-#page-loader { position: fixed; inset: 0; background: var(--cream); display: flex; align-items: center; justify-content: center; z-index: 99998; transition: opacity 0.4s; }
+#page-loader { position: fixed; inset: 0; background: var(--cream); display: flex; align-items: center; justify-content: center; z-index: 99997; transition: opacity 0.4s; }
 #page-loader.hidden { opacity: 0; pointer-events: none; }
 .loader-flower { font-size: 48px; animation: spin 2s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -148,6 +150,7 @@ body.edit-mode .edit-hint { display: block; }
   .steps-grid, .certs-grid { grid-template-columns: 1fr; gap: 20px; }
   .divider { padding: 0 24px; }
   .form-box { padding: 28px 20px; }
+  .panel { width: 100%; right: -100%; }
 }
 </style>
 </head>
@@ -157,105 +160,131 @@ body.edit-mode .edit-hint { display: block; }
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
     <h3>🌸 Miracle Flowers</h3>
-    <p>Введите пароль для редактирования сайта</p>
-    <input class="login-input" type="password" id="loginInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" autofocus />
+    <p>Введите пароль для редактирования</p>
+    <input class="login-input" type="password" id="loginInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
     <button class="login-btn" onclick="doLogin()">Войти в редактор</button>
-    <div class="login-err" id="loginErr">Неверный пароль — попробуйте ещё раз</div>
+    <div class="login-err" id="loginErr">Неверный пароль</div>
   </div>
 </div>
 
-<!-- EDIT BAR -->
-<div class="edit-bar" id="editBar">
-  <span class="edit-bar-logo">Miracle Flowers</span>
-  <div class="edit-bar-sep"></div>
-  <span class="edit-bar-label">✦ Режим редактирования — кликайте на текст или фото чтобы изменить</span>
-  <button class="eb-btn eb-save" onclick="doSave()">💾 Сохранить и скачать</button>
-  <button class="eb-btn eb-exit" onclick="doExit()">Выйти</button>
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+<!-- EDIT PANEL -->
+<div class="panel" id="editPanel">
+  <div class="panel-head">
+    <h2>✦ Редактор сайта</h2>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body">
+
+    <!-- HERO -->
+    <div class="panel-section">
+      <div class="panel-section-title">🌸 Главный экран</div>
+      <div class="panel-row"><div class="panel-label">Имена молодожёнов</div><input class="panel-input" id="p_names" value="Вера &amp; Хавьер" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Заголовок (строка 1)</div><input class="panel-input" id="p_title1" value="Цветы" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Заголовок (строка 2, курсив)</div><input class="panel-input" id="p_title2" value="любви" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Текст под именами</div><textarea class="panel-input panel-textarea" id="p_text" oninput="applyAll()">Мы бы хотели, чтобы красота этого дня продолжалась в нашем доме ещё долгие месяцы. Вместо букета на свадьбу вы можете поддержать нас цветочной подпиской от Miracle Flowers.</textarea></div>
+      <div class="panel-row"><div class="panel-label">Текст кнопки</div><input class="panel-input" id="p_cta" value="Внести депозит" oninput="applyAll()" /></div>
+      <div class="panel-row">
+        <div class="panel-label">Главное фото</div>
+        <div class="panel-img-btn" onclick="pickImg('heroPhoto','p_hero_preview')">📷 Загрузить фото молодожёнов</div>
+        <img id="p_hero_preview" class="panel-img-preview" />
+      </div>
+      <div class="panel-row">
+        <div class="panel-label">Логотип</div>
+        <div class="panel-img-btn" onclick="pickImg('heroLogo','p_logo_preview')">📷 Загрузить логотип</div>
+        <img id="p_logo_preview" class="panel-img-preview" />
+      </div>
+    </div>
+
+    <!-- CERTS -->
+    <div class="panel-section">
+      <div class="panel-section-title">🎫 Сертификаты</div>
+      <div class="certs-grid-panel" id="certsPanel"></div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="panel-section">
+      <div class="panel-section-title">📞 Контакты</div>
+      <div class="panel-row"><div class="panel-label">Номер телефона</div><input class="panel-input" id="p_phone" value="+7 (917) 672-28-77" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Телефон для ссылки (только цифры)</div><input class="panel-input" id="p_phone_link" value="+79176722877" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Адрес</div><input class="panel-input" id="p_address" value="г. Чебоксары, Университетская ул., 38к2" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Сайт</div><input class="panel-input" id="p_website" value="miracleflowers.ru" oninput="applyAll()" /></div>
+      <div class="panel-row"><div class="panel-label">Instagram</div><input class="panel-input" id="p_instagram" value="@miracleflowers" oninput="applyAll()" /></div>
+    </div>
+
+    <!-- COLORS -->
+    <div class="panel-section">
+      <div class="panel-section-title">🎨 Цвета</div>
+      <div class="panel-row"><div class="panel-label">Цвет кнопок и акцентов</div><div class="color-row"><input type="color" class="color-input" id="p_color_green" value="#7a9a60" oninput="applyColors()" /><span style="color:rgba(255,255,255,0.5);font-size:13px;">Зелёный (кнопки)</span></div></div>
+      <div class="panel-row"><div class="panel-label">Цвет золота (заголовки, цены)</div><div class="color-row"><input type="color" class="color-input" id="p_color_gold" value="#B8952A" oninput="applyColors()" /><span style="color:rgba(255,255,255,0.5);font-size:13px;">Золотой</span></div></div>
+      <div class="panel-row"><div class="panel-label">Цвет фона страницы</div><div class="color-row"><input type="color" class="color-input" id="p_color_bg" value="#F5F0E8" oninput="applyColors()" /><span style="color:rgba(255,255,255,0.5);font-size:13px;">Фон</span></div></div>
+    </div>
+
+    <!-- FONTS -->
+    <div class="panel-section">
+      <div class="panel-section-title">✦ Размеры текста</div>
+      <div class="panel-row">
+        <div class="panel-label">Заголовок Hero</div>
+        <div class="range-row"><input type="range" class="range-input" id="p_title_size" min="32" max="96" value="64" oninput="applyFonts(this,'heroTitleSize')"/><span class="range-val" id="heroTitleSize_val">64px</span></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-label">Имена молодожёнов</div>
+        <div class="range-row"><input type="range" class="range-input" id="p_names_size" min="16" max="56" value="28" oninput="applyFonts(this,'heroNamesSize')"/><span class="range-val" id="heroNamesSize_val">28px</span></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-label">Основной текст</div>
+        <div class="range-row"><input type="range" class="range-input" id="p_text_size" min="12" max="24" value="15" oninput="applyFonts(this,'heroTextSize')"/><span class="range-val" id="heroTextSize_val">15px</span></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel-label">Цены сертификатов</div>
+        <div class="range-row"><input type="range" class="range-input" id="p_price_size" min="20" max="60" value="34" oninput="applyFonts(this,'certPriceSize')"/><span class="range-val" id="certPriceSize_val">34px</span></div>
+      </div>
+    </div>
+
+  </div>
+  <button class="panel-save" onclick="doSave()">💾 Сохранить и скачать файл</button>
 </div>
 
-<div class="edit-hint">
-  ✦ Кликни на текст — редактируй<br>
-  🖼 Кликни на фото — замени картинку<br>
-  💾 Нажми «Сохранить» — файл скачается<br>
-  📤 Загрузи файл на GitHub — сайт обновится
-</div>
+<!-- EDIT TRIGGER BUTTON -->
+<div class="edit-trigger" id="editTrigger" onclick="openPanel()">✏️ Редактировать сайт</div>
 
 <div id="page-loader"><div class="loader-flower">🌸</div></div>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-photo img-wrap">
-    <img id="heroPhoto" src="photo.jpg" alt="Молодожёны" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r);" />
-    <div class="img-replace-btn" onclick="replaceImg('heroPhoto')"><span>🖼 Заменить фото</span></div>
+  <div class="hero-photo">
+    <img id="heroPhoto" src="photo.jpg" alt="Молодожёны" />
   </div>
   <div class="hero-content">
-    <div class="brand-logo-wrap img-wrap" style="margin-bottom:40px;">
-      <img id="heroLogo" src="logo.png" alt="Miracle Flowers" class="brand-logo" />
-      <div class="img-replace-btn" style="border-radius:8px;" onclick="replaceImg('heroLogo')"><span>🖼 Логотип</span></div>
-    </div>
-    <p class="hero-eyebrow" contenteditable="false">Цветочный депозит</p>
-    <h1 class="hero-title"><span contenteditable="false">Цветы</span><br>для <em contenteditable="false">любви</em></h1>
-    <p class="hero-names" contenteditable="false">Вера &amp; Хавьер</p>
-    <p class="hero-text" contenteditable="false">Мы бы хотели, чтобы красота этого дня продолжалась в нашем доме ещё долгие месяцы. Вместо букета на свадьбу вы можете поддержать нас цветочной подпиской от Miracle Flowers.</p>
-    <a href="#certificates" class="hero-cta" contenteditable="false">Внести депозит</a>
+    <img id="heroLogo" src="logo.png" alt="Miracle Flowers" class="brand-logo" />
+    <p class="hero-eyebrow">Цветочный депозит</p>
+    <h1 class="hero-title" id="heroTitle"><span id="heroTitle1">Цветы</span><br>для <em id="heroTitle2">любви</em></h1>
+    <p class="hero-names" id="heroNames">Вера &amp; Хавьер</p>
+    <p class="hero-text" id="heroText">Мы бы хотели, чтобы красота этого дня продолжалась в нашем доме ещё долгие месяцы. Вместо букета на свадьбу вы можете поддержать нас цветочной подпиской от Miracle Flowers.</p>
+    <a href="#certificates" class="hero-cta" id="heroCta">Внести депозит</a>
   </div>
 </section>
 
 <div class="divider"><span>✦</span></div>
 
 <section class="section">
-  <p class="section-label" contenteditable="false">Как это работает</p>
-  <h2 class="section-heading" contenteditable="false">Как работает депозит</h2>
+  <p class="section-label">Как это работает</p>
+  <h2 class="section-heading">Как работает депозит</h2>
   <div class="steps-grid">
-    <div class="step"><div class="step-number">01</div><p class="step-title" contenteditable="false">Внесите вклад</p><p class="step-text" contenteditable="false">Выберите сумму от 1 000 — это ваш взнос на личный цветочный счёт молодожёнов.</p></div>
-    <div class="step"><div class="step-number">02</div><p class="step-title" contenteditable="false">Депозит пополняется</p><p class="step-text" contenteditable="false">Все взносы гостей суммируются на счету молодожёнов — чем больше вклад, тем дольше длится подписка.</p></div>
-    <div class="step"><div class="step-number">03</div><p class="step-title" contenteditable="false">Цветы после свадьбы</p><p class="step-text" contenteditable="false">Молодожёны начнут получать еженедельные боксы свежих цветов прямо домой.</p></div>
+    <div class="step"><div class="step-number">01</div><p class="step-title">Внесите вклад</p><p class="step-text">Выберите сумму от 1 000 — это ваш взнос на личный цветочный счёт молодожёнов.</p></div>
+    <div class="step"><div class="step-number">02</div><p class="step-title">Депозит пополняется</p><p class="step-text">Все взносы гостей суммируются на счету молодожёнов — чем больше вклад, тем дольше длится подписка.</p></div>
+    <div class="step"><div class="step-number">03</div><p class="step-title">Цветы после свадьбы</p><p class="step-text">Молодожёны начнут получать еженедельные боксы свежих цветов прямо домой.</p></div>
   </div>
 </section>
 
 <div class="divider"><span>✦</span></div>
 
 <section class="certs-section" id="certificates">
-  <p class="section-label" contenteditable="false">Сертификаты</p>
-  <h2 class="section-heading" contenteditable="false">Внесите сумму на депозит</h2>
-  <div class="certs-grid">
-    <div class="cert-card" data-amount="1000" onclick="selectCert(this)">
-      <div class="cert-img-wrap img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/><div class="img-replace-btn" onclick="event.stopPropagation();replaceImg('certphoto')"><span>🖼 Фото</span></div></div>
-      <div class="cert-price" contenteditable="false">1 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Начало</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-    <div class="cert-card" data-amount="2000" onclick="selectCert(this)">
-      <div class="cert-img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/></div>
-      <div class="cert-price" contenteditable="false">2 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Романтика</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-    <div class="cert-card" data-amount="3000" onclick="selectCert(this)">
-      <div class="cert-img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/></div>
-      <div class="cert-price" contenteditable="false">3 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Нежность</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-    <div class="cert-card" data-amount="5000" onclick="selectCert(this)">
-      <div class="cert-img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/></div>
-      <div class="cert-price" contenteditable="false">5 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Популярный</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-    <div class="cert-card" data-amount="7000" onclick="selectCert(this)">
-      <div class="cert-img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/></div>
-      <div class="cert-price" contenteditable="false">7 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Щедрость</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-    <div class="cert-card" data-amount="10000" onclick="selectCert(this)">
-      <div class="cert-img-wrap"><img class="cert-img certphoto" src="certificate.jpg" alt=""/></div>
-      <div class="cert-price" contenteditable="false">10 000 ₽</div><div class="cert-label-small">Сертификат</div>
-      <div><span class="cert-tag" contenteditable="false">Роскошь</span></div>
-      <div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>
-    </div>
-  </div>
+  <p class="section-label">Сертификаты</p>
+  <h2 class="section-heading">Внесите сумму на депозит</h2>
+  <div class="certs-grid" id="certsGrid"></div>
 </section>
 
 <div class="divider"><span>✦</span></div>
@@ -272,9 +301,6 @@ body.edit-mode .edit-hint { display: block; }
       <div class="form-group"><label class="form-label">Сумма депозита</label>
         <select class="form-input form-select" id="certAmt" onchange="syncSel(this)">
           <option value="">— выберите сертификат —</option>
-          <option value="1000">1 000 ₽</option><option value="2000">2 000 ₽</option>
-          <option value="3000">3 000 ₽</option><option value="5000">5 000 ₽</option>
-          <option value="7000">7 000 ₽</option><option value="10000">10 000 ₽</option>
         </select>
       </div>
       <div class="form-group"><label class="form-label">Пожелание (необязательно)</label><textarea class="form-input" id="gMsg" rows="4" placeholder="Ваши слова…" style="resize:vertical;"></textarea></div>
@@ -286,9 +312,9 @@ body.edit-mode .edit-hint { display: block; }
 </section>
 
 <section class="callback-section">
-  <p class="section-label" contenteditable="false">Остались вопросы?</p>
-  <h2 class="section-heading" contenteditable="false">Мы на связи</h2>
-  <p class="callback-sub">Оставьте номер — перезвоним в течение 15 минут.<br>Или звоните: <a href="tel:+79176722877" contenteditable="false">+7 (917) 672-28-77</a></p>
+  <p class="section-label">Остались вопросы?</p>
+  <h2 class="section-heading">Мы на связи</h2>
+  <p class="callback-sub" id="callbackSub">Оставьте номер — перезвоним в течение 15 минут.<br>Или звоните: <a id="phoneLink" href="tel:+79176722877">+7 (917) 672-28-77</a></p>
   <div class="callback-form">
     <input class="callback-input" type="text" id="cbName" placeholder="Ваше имя"/>
     <input class="callback-input" type="tel" id="cbPhone" placeholder="+7 (___) ___-__-__"/>
@@ -296,38 +322,116 @@ body.edit-mode .edit-hint { display: block; }
   </div>
   <p class="callback-success" id="cbOk">✦ Отлично! Мы свяжемся с Вами в течение 15 минут.</p>
   <div class="footer-inline">
-    <div class="img-wrap" style="display:inline-block;margin-bottom:12px;">
-      <img id="footerLogo" src="logo.png" alt="Miracle Flowers" class="footer-logo-inline" style="margin-bottom:0;"/>
-      <div class="img-replace-btn" style="border-radius:8px;" onclick="replaceImg('footerLogo')"><span>🖼 Логотип</span></div>
-    </div>
-    <p><a href="https://miracleflowers.ru" target="_blank">miracleflowers.ru</a> · <a href="https://instagram.com/miracleflowers" target="_blank">@miracleflowers</a></p>
-    <p contenteditable="false">г. Чебоксары, Университетская ул., 38к2</p>
+    <img id="footerLogo" src="logo.png" alt="Miracle Flowers" class="footer-logo-inline"/>
+    <p><a id="footerWeb" href="https://miracleflowers.ru" target="_blank">miracleflowers.ru</a> · <a id="footerIg" href="https://instagram.com/miracleflowers" target="_blank">@miracleflowers</a></p>
+    <p id="footerAddr">г. Чебоксары, Университетская ул., 38к2</p>
     <p class="footer-legal">ИП Таммет Яан Эдуардович · ИНН 772983784892 · ОГРН 321774600283674</p>
-    <p contenteditable="false">© Miracle Flowers. Цветочная подписка для молодожёнов.</p>
+    <p>© Miracle Flowers. Цветочная подписка для молодожёнов.</p>
   </div>
 </section>
 
-<input type="file" id="imgFile" accept="image/*" style="display:none" onchange="onImgFile(event)"/>
+<input type="file" id="imgFilePicker" accept="image/*" style="display:none" onchange="onImgPicked(event)"/>
 
 <script>
 var PASS = 'miracle2024';
 var FORMSPREE = 'https://formspree.io/f/xeewabvz';
-var selAmt = null, selQty = 1, imgTarget = null, isEdit = false;
+var selAmt = null, selQty = 1, imgTarget = null, imgPreviewId = null;
 
-// Show loader then hide
+// Default certs data
+var certsData = [
+  {amount:'1000', tag:'Начало', img:'certificate.jpg'},
+  {amount:'2000', tag:'Романтика', img:'certificate.jpg'},
+  {amount:'3000', tag:'Нежность', img:'certificate.jpg'},
+  {amount:'5000', tag:'Популярный', img:'certificate.jpg'},
+  {amount:'7000', tag:'Щедрость', img:'certificate.jpg'},
+  {amount:'10000', tag:'Роскошь', img:'certificate.jpg'}
+];
+
+// Build cert cards on page
+function buildCerts() {
+  var grid = document.getElementById('certsGrid');
+  var sel = document.getElementById('certAmt');
+  grid.innerHTML = '';
+  sel.innerHTML = '<option value="">— выберите сертификат —</option>';
+  certsData.forEach(function(c, i) {
+    var fmt = parseInt(c.amount).toLocaleString('ru-RU');
+    var div = document.createElement('div');
+    div.className = 'cert-card';
+    div.dataset.amount = c.amount;
+    div.dataset.idx = i;
+    div.onclick = function(){ selectCert(this); };
+    div.innerHTML = '<div class="cert-img-wrap"><img class="cert-img" id="certImg'+i+'" src="'+c.img+'" alt=""/></div>' +
+      '<div class="cert-price" id="certPrice'+i+'">'+fmt+' ₽</div>' +
+      '<div class="cert-sublabel">Сертификат</div>' +
+      '<div><span class="cert-tag" id="certTag'+i+'">'+c.tag+'</span></div>' +
+      '<div class="qty-wrap" onclick="event.stopPropagation()"><button class="qty-btn" onclick="chQty(this,-1)">−</button><div class="qty-val">1</div><button class="qty-btn" onclick="chQty(this,1)">+</button></div>';
+    grid.appendChild(div);
+    sel.innerHTML += '<option value="'+c.amount+'">'+fmt+' ₽</option>';
+  });
+}
+
+// Build cert panel
+function buildCertsPanel() {
+  var panel = document.getElementById('certsPanel');
+  panel.innerHTML = '';
+  certsData.forEach(function(c, i) {
+    var fmt = parseInt(c.amount).toLocaleString('ru-RU');
+    var div = document.createElement('div');
+    div.className = 'cert-panel-item';
+    div.innerHTML = '<div class="panel-label">Сертификат '+(i+1)+'</div>' +
+      '<div class="panel-row"><div class="panel-label" style="font-size:11px">Сумма (₽)</div>' +
+      '<input class="panel-input" style="margin-bottom:6px;" value="'+c.amount+'" data-cert-idx="'+i+'" data-cert-field="amount" oninput="onCertInput(this)"/></div>' +
+      '<div class="panel-row"><div class="panel-label" style="font-size:11px">Тег</div>' +
+      '<input class="panel-input" style="margin-bottom:6px;" value="'+c.tag+'" data-cert-idx="'+i+'" data-cert-field="tag" oninput="onCertInput(this)"/></div>' +
+      '<div class="panel-img-btn" style="font-size:11px;" onclick="pickCertImg('+i+')">📷 Фото</div>' +
+      '<img id="certPanelPreview'+i+'" class="panel-img-preview" />';
+    panel.appendChild(div);
+  });
+}
+
+function onCertInput(el) {
+  var idx = parseInt(el.dataset.certIdx);
+  var field = el.dataset.certField;
+  certsData[idx][field] = el.value;
+  // Update on page
+  if (field === 'amount') {
+    var fmt = parseInt(el.value).toLocaleString('ru-RU');
+    var el2 = document.getElementById('certPrice'+idx);
+    if (el2) el2.textContent = fmt + ' ₽';
+    var card = document.querySelectorAll('.cert-card')[idx];
+    if (card) card.dataset.amount = el.value;
+  }
+  if (field === 'tag') {
+    var el3 = document.getElementById('certTag'+idx);
+    if (el3) el3.textContent = el.value;
+  }
+  // Rebuild select
+  var sel = document.getElementById('certAmt');
+  sel.innerHTML = '<option value="">— выберите сертификат —</option>';
+  certsData.forEach(function(c){
+    sel.innerHTML += '<option value="'+c.amount+'">'+parseInt(c.amount).toLocaleString('ru-RU')+' ₽</option>';
+  });
+}
+
+function pickCertImg(idx) {
+  imgTarget = 'cert_' + idx;
+  imgPreviewId = 'certPanelPreview' + idx;
+  document.getElementById('imgFilePicker').click();
+}
+
+// Login
 window.addEventListener('load', function(){
+  buildCerts();
+  buildCertsPanel();
   var l = document.getElementById('page-loader');
   l.classList.add('hidden');
   setTimeout(function(){ if(l.parentNode) l.parentNode.removeChild(l); }, 500);
-  // Auto-open editor if ?edit in URL
   if (location.search.indexOf('edit') !== -1) openLogin();
 });
 
-// Keyboard shortcut Ctrl+Shift+E
 document.addEventListener('keydown', function(e){
-  if (e.ctrlKey && e.shiftKey && (e.key === 'E' || e.key === 'е' || e.key === 'У')) {
-    e.preventDefault();
-    openLogin();
+  if (e.ctrlKey && e.shiftKey && (e.key==='E'||e.key==='е'||e.key==='У')) {
+    e.preventDefault(); openLogin();
   }
 });
 
@@ -335,125 +439,155 @@ function openLogin(){
   document.getElementById('loginOverlay').classList.add('visible');
   setTimeout(function(){ document.getElementById('loginInput').focus(); }, 100);
 }
-
 function doLogin(){
   if (document.getElementById('loginInput').value === PASS) {
     document.getElementById('loginOverlay').classList.remove('visible');
     document.getElementById('loginInput').value = '';
-    enterEdit();
+    document.getElementById('editTrigger').classList.add('visible');
   } else {
     document.getElementById('loginErr').style.display = 'block';
     document.getElementById('loginInput').value = '';
-    document.getElementById('loginInput').focus();
   }
 }
-
-function enterEdit(){
-  isEdit = true;
-  document.body.classList.add('edit-mode');
-  document.getElementById('editBar').classList.add('visible');
-  document.querySelectorAll('[contenteditable]').forEach(function(el){
-    el.setAttribute('contenteditable','true');
-  });
+function openPanel(){
+  document.getElementById('editPanel').classList.add('open');
+  document.getElementById('panelOverlay').classList.add('visible');
+}
+function closePanel(){
+  document.getElementById('editPanel').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('visible');
 }
 
-function doExit(){
-  isEdit = false;
-  document.body.classList.remove('edit-mode');
-  document.getElementById('editBar').classList.remove('visible');
-  document.querySelectorAll('[contenteditable]').forEach(function(el){
-    el.setAttribute('contenteditable','false');
-  });
+// Apply all text changes live
+function applyAll(){
+  var names = document.getElementById('p_names').value;
+  var t1 = document.getElementById('p_title1').value;
+  var t2 = document.getElementById('p_title2').value;
+  var txt = document.getElementById('p_text').value;
+  var cta = document.getElementById('p_cta').value;
+  var phone = document.getElementById('p_phone').value;
+  var phoneLink = document.getElementById('p_phone_link').value;
+  var addr = document.getElementById('p_address').value;
+  var web = document.getElementById('p_website').value;
+  var ig = document.getElementById('p_instagram').value;
+
+  document.getElementById('heroNames').textContent = names;
+  document.getElementById('heroTitle1').textContent = t1;
+  document.getElementById('heroTitle2').textContent = t2;
+  document.getElementById('heroText').textContent = txt;
+  document.getElementById('heroCta').textContent = cta;
+  var pl = document.getElementById('phoneLink');
+  pl.textContent = phone; pl.href = 'tel:' + phoneLink;
+  document.getElementById('footerAddr').textContent = addr;
+  var fw = document.getElementById('footerWeb');
+  fw.textContent = web; fw.href = 'https://' + web;
+  var fi = document.getElementById('footerIg');
+  fi.textContent = ig; fi.href = 'https://instagram.com/' + ig.replace('@','');
 }
 
-function doSave(){
-  // Exit edit mode visually before saving HTML
-  document.body.classList.remove('edit-mode');
-  document.getElementById('editBar').classList.remove('visible');
-  document.querySelectorAll('[contenteditable]').forEach(function(el){
-    el.setAttribute('contenteditable','false');
-  });
-
-  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-  // Restore edit mode
-  setTimeout(function(){
-    document.body.classList.add('edit-mode');
-    document.getElementById('editBar').classList.add('visible');
-    document.querySelectorAll('[contenteditable]').forEach(function(el){
-      el.setAttribute('contenteditable','true');
-    });
-  }, 100);
-
-  // Download
-  var blob = new Blob([html], {type: 'text/html;charset=utf-8'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'index.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(a.href);
-
-  setTimeout(function(){
-    alert('✅ Файл index.html скачан!\n\nТеперь загрузи его на GitHub вместо старого — и сайт обновится для всех.');
-  }, 300);
+// Colors
+function applyColors(){
+  var g = document.getElementById('p_color_green').value;
+  var gold = document.getElementById('p_color_gold').value;
+  var bg = document.getElementById('p_color_bg').value;
+  document.documentElement.style.setProperty('--leaf-green', g);
+  document.documentElement.style.setProperty('--gold', gold);
+  document.documentElement.style.setProperty('--cream', bg);
 }
 
-// Image replacement
-function replaceImg(target){
-  if (!isEdit) return;
-  imgTarget = target;
-  document.getElementById('imgFile').click();
+// Fonts
+function applyFonts(el, key){
+  var v = el.value;
+  document.getElementById(key+'_val').textContent = v + 'px';
+  if (key==='heroTitleSize') document.getElementById('heroTitle').style.fontSize = v+'px';
+  if (key==='heroNamesSize') document.getElementById('heroNames').style.fontSize = v+'px';
+  if (key==='heroTextSize') document.getElementById('heroText').style.fontSize = v+'px';
+  if (key==='certPriceSize') document.querySelectorAll('.cert-price').forEach(function(el){ el.style.fontSize = v+'px'; });
 }
 
-function onImgFile(e){
+// Image pick
+function pickImg(targetId, previewId){
+  imgTarget = targetId;
+  imgPreviewId = previewId;
+  document.getElementById('imgFilePicker').click();
+}
+function onImgPicked(e){
   var file = e.target.files[0];
   if (!file) return;
   var reader = new FileReader();
   reader.onload = function(ev){
-    if (imgTarget === 'certphoto') {
-      document.querySelectorAll('.certphoto').forEach(function(img){ img.src = ev.target.result; });
+    var src = ev.target.result;
+    // Cert image
+    if (imgTarget && imgTarget.indexOf('cert_') === 0) {
+      var idx = parseInt(imgTarget.replace('cert_',''));
+      certsData[idx].img = src;
+      var img = document.getElementById('certImg'+idx);
+      if (img) img.src = src;
+      var prev = document.getElementById(imgPreviewId);
+      if (prev) { prev.src = src; prev.classList.add('visible'); }
     } else {
       var el = document.getElementById(imgTarget);
-      if (el) el.src = ev.target.result;
+      if (el) el.src = src;
+      var prev2 = document.getElementById(imgPreviewId);
+      if (prev2) { prev2.src = src; prev2.classList.add('visible'); }
+      // Sync footer logo
+      if (imgTarget === 'heroLogo') document.getElementById('footerLogo').src = src;
     }
   };
   reader.readAsDataURL(file);
   e.target.value = '';
 }
 
-// Cert logic
+// Save
+function doSave(){
+  closePanel();
+  setTimeout(function(){
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+    setTimeout(function(){
+      openPanel();
+      alert('✅ Файл index.html скачан!\n\nТеперь загрузи его на GitHub вместо старого — и сайт обновится для всех.');
+    }, 500);
+  }, 300);
+}
+
+// Cert selection
 function selectCert(el){
-  if (isEdit) return;
   document.querySelectorAll('.cert-card').forEach(function(c){ c.classList.remove('selected'); });
   el.classList.add('selected');
   selAmt = el.dataset.amount;
-  selQty = parseInt(el.querySelector('.qty-val').textContent) || 1;
+  selQty = parseInt(el.querySelector('.qty-val').textContent)||1;
   document.getElementById('certAmt').value = selAmt;
   updateSum();
   document.getElementById('order-form').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function chQty(btn, d){
-  var w = btn.parentElement, v = w.querySelector('.qty-val');
-  var n = Math.max(1,(parseInt(v.textContent)||1)+d);
-  v.textContent = n;
-  var c = w.closest('.cert-card');
-  if(c && c.classList.contains('selected')){ selQty=n; updateSum(); }
+function chQty(btn,d){
+  var w=btn.parentElement,v=w.querySelector('.qty-val');
+  var n=Math.max(1,(parseInt(v.textContent)||1)+d);
+  v.textContent=n;
+  var c=w.closest('.cert-card');
+  if(c&&c.classList.contains('selected')){selQty=n;updateSum();}
 }
 function updateSum(){
-  if (!selAmt) return;
-  var t = parseInt(selAmt)*selQty;
-  document.getElementById('selLabel').textContent = selQty>1 ? selQty+' × '+parseInt(selAmt).toLocaleString('ru-RU')+' ₽' : 'Сертификат';
-  document.getElementById('selPrice').textContent = t.toLocaleString('ru-RU')+' ₽';
-  document.getElementById('selDisplay').style.display = 'flex';
+  if(!selAmt)return;
+  var t=parseInt(selAmt)*selQty;
+  document.getElementById('selLabel').textContent=selQty>1?selQty+' × '+parseInt(selAmt).toLocaleString('ru-RU')+' ₽':'Сертификат';
+  document.getElementById('selPrice').textContent=t.toLocaleString('ru-RU')+' ₽';
+  document.getElementById('selDisplay').style.display='flex';
 }
 function syncSel(s){
-  selAmt = s.value||null;
+  selAmt=s.value||null;
   if(selAmt){
     document.querySelectorAll('.cert-card').forEach(function(c){
-      var m=c.dataset.amount===selAmt; c.classList.toggle('selected',m);
-      if(m) selQty=parseInt(c.querySelector('.qty-val').textContent)||1;
+      var m=c.dataset.amount===selAmt;c.classList.toggle('selected',m);
+      if(m)selQty=parseInt(c.querySelector('.qty-val').textContent)||1;
     });
     updateSum();
   }
